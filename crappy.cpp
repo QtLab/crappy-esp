@@ -138,7 +138,6 @@ void SetupWindow()
 
 	RECT rc;
 
-
 	while(!twnd)
 		twnd = FindWindow(L"UnrealWindow", 0);
 	if (twnd != NULL) 
@@ -157,8 +156,8 @@ void SetupWindow()
 	WNDCLASSEX wc;
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
-
 	wc.cbSize = sizeof(WNDCLASSEX);
+
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = GetModuleHandle(0);
@@ -216,13 +215,14 @@ WPARAM MainLoop()
 
 int main(int argc, char* argv[])
 {
-	cout << hex << uppercase;
-	mem = new CMem(reinterpret_cast<HANDLE>(stoul(string(argv[1]), 0, 0)));
-	//mem = new CMem(reinterpret_cast<HANDLE>(atoi(argv[1])));
-	atexit(Shutdown);
+	cout << hex << uppercase; // 以16进制大写形式输出
+	
+	mem = new CMem(reinterpret_cast<HANDLE>(atoi(argv[1]))); // 将命令行第一个参数从字符串转换为整数,再强制转换为句柄
+
+	atexit(Shutdown); // 注册程序结束时调用关闭函数
 	SetupWindow();
 	CacheNames();
-	//esp stuff
+
 	uint32_t ret = (uint32_t)MainLoop();
 	cin.get();
     return ret;

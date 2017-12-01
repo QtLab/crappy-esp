@@ -17,10 +17,12 @@ using namespace std;
 class CMem
 {
 public:
+
 	CMem() : hProcess(nullptr), hModule(nullptr), lpBase(nullptr)
 	{
 
 	}
+
 	CMem(HANDLE hProc) : hProcess(hProc), hModule(nullptr), lpBase(nullptr)
 	{
 		HMODULE hMods[512];
@@ -59,9 +61,9 @@ public:
 	template<typename T> T RPM(SIZE_T address, DWORD bufSize)
 	{
 		T buff;
-		/*if (!ReadProcessMemory(hProcess, (LPCVOID)address, &buff, bufSize, NULL))
-			std::cout << "Error reading: " << GetLastError() << std::endl;*/
-		ReadProcessMemory(hProcess, (LPCVOID)address, &buff, bufSize, NULL);
+		if (!ReadProcessMemory(hProcess, (LPCVOID)address, &buff, bufSize, NULL))
+			std::cout << "Error reading: " << GetLastError() << std::endl;
+		//ReadProcessMemory(hProcess, (LPCVOID)address, &buff, bufSize, NULL);
 		return buff;
 	}
 
@@ -76,9 +78,11 @@ public:
 	}
 
 private:
+
 	HANDLE hProcess;
 	HMODULE hModule;
 	LPVOID lpBase;
+
 };
 
 //Vector3
